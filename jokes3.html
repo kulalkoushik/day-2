@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genderize API Example</title>
+</head>
+<body>
+    <h1>Guess the Gender by Name</h1>
+    <label for="nameInput">Enter a name:</label>
+    <input type="text" id="nameInput" placeholder="e.g., Luc">
+    <button id="guessButton">Guess Gender</button>
+
+    <h3 id="result"></h3>
+
+    <script>
+        document.getElementById('guessButton').addEventListener('click', function() {
+            const name = document.getElementById('nameInput').value;
+            if (name) {
+                const apiUrl = `https://api.genderize.io/?name=${name}`;
+                
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        const resultText = `Name: ${data.name}, Gender: ${data.gender || 'Not available'}, Probability: ${data.probability}`;
+                        document.getElementById('result').innerText = resultText;
+                    })
+                    .catch(error => console.error('Error fetching the gender data:', error));
+            } else {
+                alert('Please enter a name.');
+            }
+        });
+    </script>
+</body>
+</html>
